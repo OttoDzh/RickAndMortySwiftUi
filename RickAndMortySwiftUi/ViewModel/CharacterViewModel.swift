@@ -21,7 +21,9 @@ class CharacterViewModel : ObservableObject {
              do {
                  let (data, _) = try await urlSession.data(from: url!)
                  let episode = try JSONDecoder().decode(Episode.self, from: data)
-                 self.episodes.append(episode)
+                  DispatchQueue.main.async {
+                     self.episodes.append(episode)
+                 }
              }
              catch {
                  debugPrint("Error loading \(String(describing: url)): \(String(describing: error))")
@@ -36,7 +38,9 @@ class CharacterViewModel : ObservableObject {
              do {
                  let (data, _) = try await urlSession.data(from: url)
                  let characters = try JSONDecoder().decode(Character.self, from: data)
-                 self.characters = characters.results
+                  DispatchQueue.main.async {
+                     self.characters = characters.results
+                 }
              }
              catch {
                  debugPrint("Error loading \(url): \(String(describing: error))")
@@ -51,7 +55,9 @@ class CharacterViewModel : ObservableObject {
         do {
             let (data, _) = try await urlSession.data(from: url)
             let characters = try JSONDecoder().decode(Character.self, from: data)
-            self.characters  += characters.results
+              DispatchQueue.main.async {
+                self.characters  += characters.results
+            }
         }
         catch {
             debugPrint("Error loading \(url): \(String(describing: error))")
